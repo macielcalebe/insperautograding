@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="insperautograder",
-    version="0.1.0",
+    version="0.2.0",
     author="Maciel Calebe Vidal",
     author_email="macielcv@insper.edu.br",
     description="Autograding for Insper Students",
@@ -23,10 +23,5 @@ setuptools.setup(
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.7",
-    install_requires=[
-        'python-dotenv',
-        'requests',
-        'ipython',
-        'ipywidgets'
-    ],
+    install_requires=["python-dotenv", "requests", "ipython", "ipywidgets"],
 )
