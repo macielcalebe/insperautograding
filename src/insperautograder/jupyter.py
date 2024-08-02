@@ -14,7 +14,7 @@ from IPython.core.interactiveshell import InteractiveShell
 
 
 class GradesBy:
-    EXERCICE = "EXERCICE"
+    QUESTION = "QUESTION"
     TASK = "TASK"
 
 
@@ -174,7 +174,7 @@ def tasks(subject=None, offering=None, url=None):
     display(Markdown(req.text[1:-1].replace("\\n", "\n")))
 
 
-def grades(by=GradesBy.EXERCICE, subject=None, offering=None, task=None, url=None):
+def grades(by=GradesBy.QUESTION, subject=None, offering=None, task=None, url=None):
     if subject is None:
         subject = os.getenv("IAG_SUBJECT")
 
@@ -189,19 +189,20 @@ def grades(by=GradesBy.EXERCICE, subject=None, offering=None, task=None, url=Non
     if url is None:
         url = os.getenv("IAG_SERVER_URL")
 
-    if by == GradesBy.EXERCICE:
-        route = "grade_by_exercice"
+    if by == GradesBy.QUESTION:
+        route = "grade_by_question"
     else:
         route = "grade_by_task"
 
-    if task is None:
-        url = f"{url}/{route}/{subject}/{offering}"
-    else:
-        url = f"{url}/{route}/{subject}/{offering}/{task}"
+    url = f"{url}/{route}/{subject}/{offering}"
+
+    params = {}
+    if task:
+        params['task_name'] = task
 
     token = os.getenv("IAG_TOKEN")
     headers = {"Authorization": "Bearer " + token}
-    req = requests.get(url=url, headers=headers, timeout=config.GET_GRADES_TIMEOUT)
+    req = requests.get(url=url, headers=headers, params=params, timeout=config.GET_GRADES_TIMEOUT,)
 
     clear_output()
     display(Markdown(req.text[1:-1].replace("\\n", "\n")))
