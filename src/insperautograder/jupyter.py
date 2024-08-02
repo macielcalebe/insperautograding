@@ -198,11 +198,16 @@ def grades(by=GradesBy.QUESTION, subject=None, offering=None, task=None, url=Non
 
     params = {}
     if task:
-        params['task_name'] = task
+        params["task_name"] = task
 
     token = os.getenv("IAG_TOKEN")
     headers = {"Authorization": "Bearer " + token}
-    req = requests.get(url=url, headers=headers, params=params, timeout=config.GET_GRADES_TIMEOUT,)
+    req = requests.get(
+        url=url,
+        headers=headers,
+        params=params,
+        timeout=config.GET_GRADES_TIMEOUT,
+    )
 
     clear_output()
     display(Markdown(req.text[1:-1].replace("\\n", "\n")))
