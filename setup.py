@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="insperautograder",
-    version="0.2.1",
+    version="0.2.2",
     author="Maciel Calebe Vidal",
     author_email="macielcv@insper.edu.br",
     description="Autograding for Insper Students",
