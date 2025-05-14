@@ -211,3 +211,32 @@ def grades(by=GradesBy.QUESTION, subject=None, offering=None, task=None, url=Non
 
     clear_output()
     display(Markdown(req.text[1:-1].replace("\\n", "\n")))
+
+def average(subject=None, offering=None, url=None):
+    if subject is None:
+        subject = os.getenv("IAG_SUBJECT")
+
+    if offering is None:
+        offering = os.getenv("IAG_OFFERING")
+
+    if subject is None or offering is None:
+        clear_output()
+        display(Markdown("Defina os argumentos `subject` e `offering`!"))
+        return
+
+    if url is None:
+        url = os.getenv("IAG_SERVER_URL")
+
+
+    url = f"{url}/average/{subject}/{offering}"
+
+    token = os.getenv("IAG_TOKEN")
+    headers = {"Authorization": "Bearer " + token}
+    req = requests.get(
+        url=url,
+        headers=headers,
+        timeout=config.GET_GRADES_TIMEOUT,
+    )
+
+    clear_output()
+    display(Markdown(req.text[1:-1].replace("\\n", "\n")))
