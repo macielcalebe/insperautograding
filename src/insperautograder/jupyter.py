@@ -212,7 +212,7 @@ def grades(by=GradesBy.QUESTION, subject=None, offering=None, task=None, url=Non
     clear_output()
     display(Markdown(req.text[1:-1].replace("\\n", "\n")))
 
-def average(subject=None, offering=None, url=None):
+def average(subject=None, offering=None, url=None, excluded_count=0):
     if subject is None:
         subject = os.getenv("IAG_SUBJECT")
 
@@ -227,6 +227,13 @@ def average(subject=None, offering=None, url=None):
     if url is None:
         url = os.getenv("IAG_SERVER_URL")
 
+    params = {}
+    if excluded_count >= 0:
+        params["excluded_count"] = excluded_count
+    else:
+        raise ValueError(
+            f"Argumento `excluded_count` inválido. Valor aceito: inteiro maior ou igual a 0."
+        )
 
     url = f"{url}/average/{subject}/{offering}"
 
@@ -236,6 +243,7 @@ def average(subject=None, offering=None, url=None):
         url=url,
         headers=headers,
         timeout=config.GET_GRADES_TIMEOUT,
+        params=params,
     )
 
     clear_output()
